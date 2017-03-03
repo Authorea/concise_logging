@@ -31,11 +31,15 @@ module ConciseLogging
         path: path
       )
       message << " redirect_to=#{location}" if location.present?
-      message << " parameters=#{params}" if params.present?
+      message << " parameters=#{filter_parameters(params)}" if params.present?
       message << " #{color(exception_details, RED)}" if exception_details.present?
       message << " (app:#{app}ms db:#{db}ms)"
 
       logger.warn message
+    end
+
+    def filter_parameters(params)
+      params
     end
 
     def compute_status(payload)
